@@ -105,7 +105,7 @@ export let config = {
   
     startTime: "2023-5-3", //排班时间区间
     endTime: "2024-2-16",
-    requesturl: "http://192.168.3.12:8000",
+    //requesturl: "http://192.168.3.12:8000",
     //requesturl: "http://127.0.0.1:8000",
-    //requesturl: "http://wanghaiyang900627.pythonanywhere.com/"
+    requesturl: "http://wanghaiyang900627.pythonanywhere.com/"
   };
