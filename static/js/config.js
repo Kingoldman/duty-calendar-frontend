@@ -107,5 +107,5 @@ export let config = {
     endTime: "2024-2-16",
     //requesturl: "http://192.168.3.12:8000",
     //requesturl: "http://127.0.0.1:8000",
-    requesturl: "http://wanghaiyang900627.pythonanywhere.com/"
+    requesturl: "https://wanghaiyang900627.pythonanywhere.com/"
   };
