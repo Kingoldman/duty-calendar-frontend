@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- <link href="https://cdn.bootcdn.net/ajax/libs/bootstrap/5.1.0/css/bootstrap.min.css" rel="stylesheet" /> -->
+  <link rel="stylesheet" href="../static/css/bootstrap.min.css" />
+  <link rel="shortcut icon" href="../static/img/favicon.ico" type="image/x-icon" />
+  <link rel="stylesheet" href="../static/css/dutyerlist.css" />
+  <title>值班人员</title>
+</head>
+
+<body>
+  <!-- 加载中Modal -->
+  <div class="modal fade" id="loadingModal" tabindex="-1" aria-labelledby="loadingModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <!-- <div class="modal-header">
+          <h5 class="modal-title" id="loadingModalLabel">加载中...</h5>
+        </div> -->
+        <div class="modal-body">
+          <div class="d-flex justify-content-center align-items-center flex-column">
+            <!-- 自定义的加载动画 -->
+            <div class="spinner-border text-primary" role="status"></div>
+            <div class="custom-text">加载中...</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 主界面 -->
+  <div class="container"></div>
+  <!-- 右侧导航栏 -->
+  <div class="right-nav-list">
+    <div class="fixed-right">
+      <ul class="nav flex-column"></ul>
+    </div>
+  </div>
+
+  <!-- <script src="https://cdn.bootcdn.net/ajax/libs/bootstrap/5.1.0/js/bootstrap.bundle.min.js"></script> -->
+  <script src="../static/js/bootstrap5.3.min.js"></script>
+  <!-- <script src="https://cdn.bootcdn.net/ajax/libs/dayjs/1.10.4/dayjs.min.js"></script> -->
+  <script src="../static/js/dayjs1.11.7.min.js"></script>
+
+  <script type="module" src="../static/js/dutyerlistdisplay.js"></script>
+</body>
+
+</html>

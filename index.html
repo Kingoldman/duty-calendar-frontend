@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- <link href="https://cdn.bootcdn.net/ajax/libs/bootstrap/5.1.0/css/bootstrap.min.css" rel="stylesheet" /> -->
+  <link rel="stylesheet" href="./static/css/bootstrap.min.css">
+  <link rel="shortcut icon" href="./static/img/favicon.ico" type="image/x-icon" />
+  <link rel="stylesheet" href="./static/css/styles.css" />
+  <title>值班日历</title>
+</head>
+
+<body>
+
+  <!-- 访问密码框 -->
+  <div id="login-form">
+    <form id="into-form" class="form-control">
+      <input type="password" id="into" class="form-control" placeholder="输入访问密码">
+      <button type="submit" class="btn btn-primary w-100" id="verfy">提交</button>
+    </form>
+  </div>
+
+  <!-- 值班表主界面 -->
+  <div class="container" id="main-content" style="display: none;"></div>
+
+  <!-- 加载中Modal -->
+  <div class="modal fade" id="loadingModal" tabindex="-1" aria-labelledby="loadingModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="loadingModalLabel">加载中...</h5>
+        </div>
+        <div class="modal-body">
+          <div class="d-flex justify-content-center align-items-center flex-column">
+            <!-- 自定义的加载动画 -->
+            <div class="spinner-border text-primary" role="status"></div>
+            <div class="custom-text">
+              每月首次打开会花费几秒时间加载数据。
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 登录模态框 -->
+  <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="loginModalLabel" style="font-size: larger;">需要登录获取请求权限</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form required>
+            <div class="mb-3">
+              <input type="text" class="form-control" id="username" name="username" placeholder="账号" required />
+            </div>
+            <div class="mb-3">
+              <input type="password" class="form-control" id="password" name="password" placeholder="密码" required />
+            </div>
+            <button type="button" type="submit" class="btn btn-outline-primary w-100" id="submitBtn">
+              登录
+            </button>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <p>
+          <div>测试账号：<span style="color: #dc3545 ;font-size:large">whoareu</span></div>
+          <div>
+            密码：<span style="color: #dc3545 ;font-size:large">qnyncw509</span>
+          </div>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- <script src="https://cdn.bootcdn.net/ajax/libs/bootstrap/5.1.0/js/bootstrap.bundle.min.js"></script> -->
+  <script src="./static/js/bootstrap5.3.min.js"></script>
+  <!-- <script src="https://cdn.bootcdn.net/ajax/libs/dayjs/1.10.4/dayjs.min.js"></script> -->
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script> -->
+  <!-- <script src="./static/js/jspdf.umd.min.js"></script>
+  <script src="./static/js/html2canvas.min.js"></script> -->
+  <script src="./static/js/dayjs1.11.7.min.js"></script>
+  <script src="./static/js/crypto-js.min.js"></script>
+  <script src="./static/js/xlsx.full.min.js"></script>
+
+  <!-- 渲染主界面 -->
+  <script type="module">
+    import { calendardisplay } from "./static/js/main.js";
+    calendardisplay.render({
+      element: ".container",
+    });
+  </script>
+
+<!-- 渲染出页面才能添加监听 -->
+<script type="module" src="./static/js/addbtnevent.js"></script>
+
+
+</body>
+
+</html>
