@@ -10,14 +10,36 @@ body {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
   border-radius: 0.5rem;
   min-width: fit-content;
+  height: 100%;
 }
 
+/* 日历大框 */
+.calendar-left-main {
+  /* display: flex; */
+  /* width: 100%;
+  height: 100%; */
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+
+/* 头部功能每一个按钮 */
+.calendar-header-item {
+  display: flex;
+  align-items: center;
+}
+
+/* 头部功能按钮等 */
 .calendar-toolbar-top {
   display: flex;
-  justify-content: space-between;
+  flex-wrap: wrap;
+  /* justify-content: space-between; */
   align-items: center;
   padding: 0.5rem 0 1.5rem 0;
 }
+
+
 
 
 .select-year,
@@ -29,13 +51,14 @@ body {
 #analysis,
 #loginBtn {
   margin: 0 1.2rem;
-  flex: 1
+  /* 平分 */
+  flex: 1; 
 }
-
 
 .select-year,
 .select-month {
-  overflow-y: auto;
+  min-width: fit-content;
+
 }
 
 
@@ -60,16 +83,21 @@ body {
 }
 
 
-.calendar-left-main {
+
+/* 头部星期 */
+.calendar-left-header {
+  font-weight: bold;
   display: flex;
-  height: 100%;
-  flex-direction: column;
   justify-content: space-around;
   align-items: center;
 }
 
-.calendar-left-header {
-  font-weight: bold;
+
+/* 每行 */
+.calendar-main-row {
+  justify-content: space-around;
+  align-items: center;
+
 }
 
 /*每天的日期表格*/
@@ -97,8 +125,19 @@ body {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  font-size: 2px;
+  /* font-size: 2px; */
   margin: 0.25rem auto;
+}
+
+.duty {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  /* justify-content: space-around; */
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 0.1rem;
 }
 
 /*周末*/
@@ -127,8 +166,8 @@ body {
   font-size: 5px;
   font-weight: normal;
   position: absolute;
-  left: 0.01vw;
-  top: 0.01vw;
+  left: 0.02vw;
+  top: 0.02vw;
 }
 
 /*补班 makeUpday*/
@@ -146,8 +185,8 @@ body {
   font-size: 5px;
   position: absolute;
   font-weight: normal;
-  left: 0.01vw;
-  top: 0.01vw;
+  left: 0.02vw;
+  top: 0.02vw;
 }
 
 .isselected {
@@ -158,23 +197,6 @@ body {
   border-color: #17c37b;
 }
 
-/*这里要提一下 space-around，不然标题缩在一起*/
-.calendar-left-header {
-  justify-content: space-around !important;
-  align-items: center !important;
-}
-
-
-.duty {
-  position: relative;
-  width: fit-content;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  align-items: flex-start;
-  flex-direction: column;
-  gap: 0.1rem;
-}
 
 
 .leader,
@@ -191,10 +213,11 @@ body {
 .daytime-tag,
 .evening-tag {
 
-  writing-mode: vertical-lr;
-  /* 竖直自上而下（从左到右） */
-  text-orientation: upright;
-  /* 竖排中文字体正立显示 */
+  writing-mode: vertical-rl; /* 竖直自下而上（从右到左） */
+  text-align: center; /* 水平居中 */
+  display: flex;
+  justify-content: center; /* 垂直居中 */
+  align-items: center;
   background-color: #edda73;
   padding: 0.3rem 0;
 }
@@ -325,11 +348,8 @@ body {
   padding-right: 0.25rem;
 }
 
-/*加载中*/
-/* 背景半透明遮罩层 */
-.modal-backdrop {
-  opacity: 0.8 !important;
-}
+
+
 
 /* 模态框居中显示 */
 .modal-dialog {

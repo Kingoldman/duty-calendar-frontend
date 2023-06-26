@@ -66,7 +66,7 @@ displayloading();
 const all_duty_queue = await everymonthdutyerqueue();
 all_duty_queue.sort((a, b) => b.date - a.date); //按照时间最近来
 
-const container = document.getElementsByClassName("container")[0];
+const container = document.getElementsByClassName("dutyerlistcontainer")[0];
 let domcontent = "";
 let navLinkscontent = "";
 for (let i = 0; i < all_duty_queue.length; i++) {

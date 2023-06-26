@@ -7,14 +7,14 @@ import { config } from "./config.js";
 const key = CryptoJS.enc.Utf8.parse('012345678123456789101213'); // 呵呵
 
 const intoform = document.getElementById('into-form')
-if (intoform){
+if (intoform) {
   intoform.addEventListener('submit', async (event) => {
     event.preventDefault();
     const intostr = document.getElementById('into').value;
     //检查表单是否填写完整
     if (intostr.trim() === '') {
-        alert('请填写访问密码！');
-        return;
+      alert('请填写访问密码！');
+      return;
     }
 
     const encryptedintostr = CryptoJS.AES.encrypt(intostr, key, {
@@ -24,20 +24,20 @@ if (intoform){
 
     let response = "";
     try {
-        response = await urlrequest.post( `${config.requesturl}/api/dutycalendar/into`, {
-            data:{intostr:encryptedintostr},
-        });
-  
-        if (response.code === 200) {
-            document.getElementById('main-content').style.display = 'block'; //通过css样式控制，全靠自觉
-            document.getElementById('login-form').style.display = 'none';
-        } else {
-            alert('密码错误，请重新输入！');
-            return;
-        }
+      response = await urlrequest.post(`${config.requesturl}/api/dutycalendar/into`, {
+        data: { intostr: encryptedintostr },
+      });
+
+      if (response.code === 200) {
+        document.getElementById('main-content').style.display = 'block'; //通过css样式控制，全靠自觉
+        document.getElementById('login-form').style.display = 'none';
+      } else {
+        alert('密码错误，请重新输入！');
+        return;
+      }
     } catch (error) {
-        console.error('请求失败：', error);
-        throw error;
+      console.error('请求失败：', error);
+      throw error;
     }
   });
 }
@@ -113,9 +113,9 @@ class CalendarDisplay {
         normal_full_pointer = res2["normal_full_pointer"];
         last_normal_not_use = res2["last_normal_not_use"];
         leader_normal_pointer = res2['leader_normal_pointer'],
-        leader_holiday_pointer = res2['leader_holiday_pointer'],
-        thismonthduty_db = res2["thismonthduty_db"],
-        thismonthduty_db_leader = res2["thismonthduty_db_leader"]
+          leader_holiday_pointer = res2['leader_holiday_pointer'],
+          thismonthduty_db = res2["thismonthduty_db"],
+          thismonthduty_db_leader = res2["thismonthduty_db_leader"]
       }
 
       return [
@@ -478,7 +478,7 @@ class CalendarDisplay {
         leader_normal_pointer: leader_normal_pointer,
         leader_holiday_pointer: leader_holiday_pointer,
         thismonthduty: t_thismonthduty,
-        thismonthduty_leader : thismonthduty_leader
+        thismonthduty_leader: thismonthduty_leader
       };
     }
   };
@@ -761,7 +761,7 @@ class CalendarDisplay {
     //优先级是先查缓存，然后数据库(数据库只存当月的)，最后现排
     let havethiscache = this.duty_cache.hasOwnProperty(`${year}-${month}-1`); //标记缓存是否有月数据
     if (havethiscache) {
-      
+
       let thisdutycache =
         this.duty_cache[`${year}-${month}-1`]["thismonthduty"].slice(); // 做个深拷贝，不然会变的
 
@@ -1522,11 +1522,11 @@ class CalendarDisplay {
           // 修改领导值班次数
           try {
             urlrequest.put(`${config.requesturl}/api/dutycalendar/leaderdutyers`,
-                {
-                  data: thismonthduty_leader,
-                },
-                authorizationheaders
-              );
+              {
+                data: thismonthduty_leader,
+              },
+              authorizationheaders
+            );
           } catch (error) {
             console.log("error:", error);
             throw error;
@@ -1611,11 +1611,11 @@ class CalendarDisplay {
       if (!status && notthisMonth) {
         status = true;
         this.setSelect(
-          document.querySelector(".select-year"),
+          document.querySelector(".select-year select"),
           date.slice(0, 4)
         );
         this.setSelect(
-          document.querySelector(".select-month"),
+          document.querySelector(".select-month select"),
           date.split("-")[1]
         );
       }
@@ -1691,7 +1691,7 @@ class CalendarDisplay {
     // 渲染数据
     //console.log("render调用_mainInfo");
     //this._mainInfo = this.dateClass.infos(...this.today.split("-"));
-    this._mainInfo = this.dateClass.infos(curyear,curmonth,curday);
+    this._mainInfo = this.dateClass.infos(curyear, curmonth, curday);
     // 绑定动作
     this.bind();
   };
@@ -1855,12 +1855,16 @@ class CalendarDisplay {
     let html = `
       <div class="calendar-left">
         <div class="calendar-toolbar-top border-bottom">
-            <select class="form-select form-select-primary calendar-toolbar-item select-year" aria-label="select-year" disabled>
+        <div class = "select-year">
+        <select class="form-select form-select-primary calendar-toolbar-item" aria-label="select-year" disabled>
               ${yhtml}
             </select>
-            <select class="form-select form-select-primary calendar-toolbar-item select-month" aria-label="select-month" disabled>
+        </div>
+        <div class = "select-month">
+            <select class="form-select form-select-primary calendar-toolbar-item " aria-label="select-month" disabled>
                 ${mhtml}
               </select>
+            </div>
             <button type="button" class="btn btn-outline-primary last-month">上一月</button>
             <button type="button" class="calendar-toolbar-item btn btn-outline-primary next-month">下一月</button>
             <button type="button" class="calendar-toolbar-item btn btn-outline-primary back-today">返回今天</button>
@@ -1888,7 +1892,7 @@ class CalendarDisplay {
       html += `<div class="calendar-header-item">${config.weekname[i % 7]
         }</div>`;
     }
-    return `<div class="calendar-left-header d-flex align-items-center justify-content-center py-3">${html}</div>`;
+    return `<div class="calendar-left-header  py-3">${html}</div>`;
   };
 
   //小于10的数字前加0
@@ -1904,11 +1908,11 @@ class CalendarDisplay {
       y = parseInt(y);
       m = parseInt(m);
       if (y === curyear && m === curmonth) return;
-      this._mainInfo = this.dateClass.infos(curyear,curmonth,curday);
+      this._mainInfo = this.dateClass.infos(curyear, curmonth, curday);
     });
     // 选择年份
-    let ybtn = this.el.querySelector(".select-year");
-    let mbtn = this.el.querySelector(".select-month");
+    let ybtn = this.el.querySelector(".select-year select");
+    let mbtn = this.el.querySelector(".select-month select");
     ybtn.addEventListener("change", () => {
       this._mainInfo = this.dateClass.infos(
         ybtn.value,

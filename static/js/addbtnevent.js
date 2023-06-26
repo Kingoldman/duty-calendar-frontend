@@ -6,9 +6,18 @@ import { config } from "./config.js";
 
 //值班人员
 const dutyerlistBtn = document.getElementById("dutyerlist");
+// dutyerlistBtn.addEventListener("click", function () {
+//   window.open("./../../dutyerlist/dutyerlist.html", "_blank");
+// });
+
+// 模态框打开
 dutyerlistBtn.addEventListener("click", function () {
-  window.open("./../../dutyerlist/dutyerlist.html", "_blank");
-});
+  const modal = new bootstrap.Modal(document.getElementById("dutyerlistModal"));
+  modal.show();
+
+  });
+
+
 
 
 //值班统计

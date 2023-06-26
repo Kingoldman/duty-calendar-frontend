@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="./static/css/bootstrap.min.css">
   <link rel="shortcut icon" href="./static/img/favicon.ico" type="image/x-icon" />
   <link rel="stylesheet" href="./static/css/styles.css" />
+  <link rel="stylesheet" href="./static/css/dutyerlist.css" />
   <title>值班日历</title>
 </head>
 
@@ -37,7 +38,7 @@
             <!-- 自定义的加载动画 -->
             <div class="spinner-border text-primary" role="status"></div>
             <div class="custom-text">
-              每月首次打开会花费几秒时间加载数据。
+              加载中...
             </div>
           </div>
         </div>
@@ -79,6 +80,32 @@
   </div>
 
 
+  <!-- 值班人员模态框 -->
+  <div class="modal fade" id="dutyerlistModal" tabindex="-1" aria-labelledby="dutyerlistModalLabel" aria-hidden="true">
+    <div class="modal-dialog  modal-dialog-scrollable modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <!-- 主界面 -->
+          <div class="dutyerlistcontainer">
+          </div>
+          <!-- 右侧导航栏 -->
+          <div class="right-nav-list">
+            <div class="fixed-right">
+              <ul class="nav flex-column"></ul>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
   <!-- <script src="https://cdn.bootcdn.net/ajax/libs/bootstrap/5.1.0/js/bootstrap.bundle.min.js"></script> -->
   <script src="./static/js/bootstrap5.3.min.js"></script>
   <!-- <script src="https://cdn.bootcdn.net/ajax/libs/dayjs/1.10.4/dayjs.min.js"></script> -->
@@ -100,6 +127,8 @@
 
 <!-- 渲染出页面才能添加监听 -->
 <script type="module" src="./static/js/addbtnevent.js"></script>
+
+<script type="module" src="./static/js/dutyerlistdisplay.js"></script>
 
 
 </body>
