@@ -417,6 +417,15 @@ body {
 }
 
 
+/* 值班统计 */
+#dutychartModal1-modal-body {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+
+
+
 
 /* right部分没用 */
 .calendar-right {

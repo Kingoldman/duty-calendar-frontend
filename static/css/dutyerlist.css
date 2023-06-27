@@ -1,11 +1,12 @@
-#dutyerlistModal modal-body {
-  position: relative; /* 相对定位 */
-  overflow: hidden; /* 清除浮动 */
+
+#dutyerlist-modal-body{
+  display: flex; /* 使用弹性布局 左右布局 */
 }
 
 .dutyerlistcontainer {
-  float: left; /* 左浮动 */
-  width: 80%; /* 左侧宽度 */
+  width: max-content;
+  min-width: fit-content;
+  flex: 1; /* 占据剩余空间 */
 }
 
 .duty-list {
@@ -35,16 +36,16 @@
 
 
 .right-nav-list {
-  position: absolute; /* 绝对定位 */
-  top: 0;
+  position: sticky; /* 使用粘性定位 */
+  top: 10vh;
   right: 0;
-  bottom: 0;
-  /* width: 12rem; */
-  width: 20%; 
+  /* bottom: 0;  */
+  /* width: 10rem; */
   padding: 1rem 0.5rem 1rem 1rem;
-  margin: 0.5rem;
- 
+  /* margin: 0.5rem; */
+  margin-left: auto;
 }
+
 
 .fixed-right {
   max-height: 50vh;

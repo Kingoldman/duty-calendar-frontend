@@ -15,6 +15,7 @@
 
 <body>
 
+
   <!-- 访问密码框 -->
   <div id="login-form">
     <form id="into-form" class="form-control">
@@ -28,7 +29,7 @@
 
   <!-- 加载中Modal -->
   <div class="modal fade" id="loadingModal" tabindex="-1" aria-labelledby="loadingModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="loadingModalLabel">加载中...</h5>
@@ -48,7 +49,7 @@
 
   <!-- 登录模态框 -->
   <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="loginModalLabel" style="font-size: larger;">需要登录获取请求权限</h5>
@@ -82,12 +83,13 @@
 
   <!-- 值班人员模态框 -->
   <div class="modal fade" id="dutyerlistModal" tabindex="-1" aria-labelledby="dutyerlistModalLabel" aria-hidden="true">
-    <div class="modal-dialog  modal-dialog-scrollable modal-dialog-centered">
+    <div class="modal-dialog  modal-dialog-scrollable modal-dialog-centered modal-lg">
       <div class="modal-content">
         <div class="modal-header">
+          <h5 class="modal-title" id="dutyerlistModalLabel" style="font-size: larger;">值班人员清单</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div class="modal-body">
+        <div class="modal-body" id="dutyerlist-modal-body">
           <!-- 主界面 -->
           <div class="dutyerlistcontainer">
           </div>
@@ -99,11 +101,70 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">关闭</button>
         </div>
       </div>
     </div>
   </div>
+
+
+  <!-- 值班统计 -->
+  <div class="modal fade" id="dutychartModal1" aria-hidden="true" aria-labelledby="dutychartModalLabel1" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="dutychartModalLabel1">选择统计类型</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" id="dutychartModal1-modal-body">
+          <button class="btn btn-primary" data-bs-target="#dutychartModal2" data-bs-toggle="modal">按类型统计</button>
+          <button class="btn btn-primary" data-bs-target="#dutychartModal3" data-bs-toggle="modal">按时间统计</button>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">关闭</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 值班统计按类型排 -->
+  <div class="modal fade" id="dutychartModal2" aria-hidden="true" aria-labelledby="dutychartModalLabel2" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="dutychartModalLabel2">按类型统计</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" id="chart-by-cat-modal-body">
+          <div id="chart-by-cat">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary" data-bs-target="#dutychartModal1" data-bs-toggle="modal">返回统计类型选择界面</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 值班统计按时间排 -->
+  <div class="modal fade" id="dutychartModal3" aria-hidden="true" aria-labelledby="dutychartModalLabel3" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="dutychartModalLabel3">按时间统计</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" id="chart-by-time-modal-body">
+          <div id="chart-by-time">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary" data-bs-target="#dutychartModal1" data-bs-toggle="modal">返回统计类型选择界面</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 
 
   <!-- <script src="https://cdn.bootcdn.net/ajax/libs/bootstrap/5.1.0/js/bootstrap.bundle.min.js"></script> -->
@@ -125,10 +186,13 @@
     });
   </script>
 
-<!-- 渲染出页面才能添加监听 -->
-<script type="module" src="./static/js/addbtnevent.js"></script>
-
-<script type="module" src="./static/js/dutyerlistdisplay.js"></script>
+  <!-- 渲染出页面才能添加监听 -->
+  <script type="module" src="./static/js/addbtnevent.js"></script>
+  <script type="module" src="./static/js/dutyerlistdisplay.js"></script>
+  <script src="./static/js/echarts5.4.2.min.js"></script>
+  <script type="module" src="./static/js/dutychart.js"></script>
+  <script type="module" src="./static/js/dutychartbycate.js"></script>
+  <script type="module" src="./static/js/dutychartbytime.js"></script>
 
 
 </body>

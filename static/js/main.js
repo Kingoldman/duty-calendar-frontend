@@ -1868,7 +1868,8 @@ class CalendarDisplay {
             <button type="button" class="btn btn-outline-primary last-month">上一月</button>
             <button type="button" class="calendar-toolbar-item btn btn-outline-primary next-month">下一月</button>
             <button type="button" class="calendar-toolbar-item btn btn-outline-primary back-today">返回今天</button>
-            <button type="button" class="calendar-toolbar-item btn btn-outline-warning" id = "dutyerlist">值班人员</button>
+            <button type="button" class="calendar-toolbar-item btn btn-outline-warning data-bs-toggle="modal" data-bs-target="#dutyerlistModal" id = "dutyerlist">值班人员</button>
+            
             <button type="button" class="calendar-toolbar-item btn btn-outline-danger" id = "analysis">值班统计</button>
             <button type="button" class="btn btn-outline-danger" id = "export-btn">导出值班表</button>
             <button type="button" class="btn btn-outline-danger" id = "loginBtn">登录</button>

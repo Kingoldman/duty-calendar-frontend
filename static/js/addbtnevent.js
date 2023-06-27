@@ -10,27 +10,29 @@ const dutyerlistBtn = document.getElementById("dutyerlist");
 //   window.open("./../../dutyerlist/dutyerlist.html", "_blank");
 // });
 
-// 模态框打开
+// // 模态框打开
 dutyerlistBtn.addEventListener("click", function () {
   const modal = new bootstrap.Modal(document.getElementById("dutyerlistModal"));
   modal.show();
-
   });
 
 
-
-
+  
 //值班统计
 const analysisBtn = document.getElementById("analysis");
 analysisBtn.addEventListener("click", function () {
   if (localStorage.getItem("token")) {
     //有token就放行，感觉简陋了，不想弄了
-    window.dutychartWindow = window.open("./../../dutychart/dutychart.html", "_blank"); //把这个窗口放在window里
+    // window.dutychartWindow = window.open("./../../dutychart/dutychart.html", "_blank"); //把这个窗口放在window里
+    const modal = new bootstrap.Modal(document.getElementById("dutychartModal1"));
+    modal.show();
+
   } else {
     const modal = new bootstrap.Modal(document.getElementById("loginModal"));
     modal.show();
   }
 });
+
 
 
 //登录、退出
