@@ -1,52 +1,14 @@
 import { calendarJs } from "./calendar-js/calendarJs.js";
 import { urlrequest } from "./myrequest.js";
-import { config } from "./config.js";
+import { config, curyear, curmonth, curday } from "./config.js";
+import {
+  dutyerlist_func,
+  analysis_func,
+  logout_func,
+  login_func,
+  export_func,
+} from "./addbtnevent.js";
 
-
-//字符串类型的密钥转换为 WordArray 类型；密钥长度需要符合 AES 加密算法的要求，可以是 128、192 或 256 位，如果不足需要进行填充；
-const key = CryptoJS.enc.Utf8.parse('012345678123456789101213'); // 呵呵
-
-const intoform = document.getElementById('into-form')
-if (intoform) {
-  intoform.addEventListener('submit', async (event) => {
-    event.preventDefault();
-    const intostr = document.getElementById('into').value;
-    //检查表单是否填写完整
-    if (intostr.trim() === '') {
-      alert('请填写访问密码！');
-      return;
-    }
-
-    const encryptedintostr = CryptoJS.AES.encrypt(intostr, key, {
-      mode: CryptoJS.mode.ECB,
-      padding: CryptoJS.pad.Pkcs7
-    }).toString();
-
-    let response = "";
-    try {
-      response = await urlrequest.post(`${config.requesturl}/api/dutycalendar/into`, {
-        data: { intostr: encryptedintostr },
-      });
-
-      if (response.code === 200) {
-        document.getElementById('main-content').style.display = 'block'; //通过css样式控制，全靠自觉
-        document.getElementById('login-form').style.display = 'none';
-      } else {
-        alert('密码错误，请重新输入！');
-        return;
-      }
-    } catch (error) {
-      console.error('请求失败：', error);
-      throw error;
-    }
-  });
-}
-
-
-const init_today = new Date(); // 默认获取当前时间为日期对象
-const curyear = init_today.getFullYear(); // 获取年份
-const curmonth = init_today.getMonth() + 1; // 获取月份，需要加1，因为月份是以0开始计数的
-const curday = init_today.getDate();
 
 // const curyear = 2023
 // const curmonth = 5
@@ -100,8 +62,8 @@ class CalendarDisplay {
       //let zqgqcj_full_pointer = 0;
       //let last_zqgqcj_not_use = [];
       let normal_full_pointer = 0;
-      let leader_normal_pointer = 0
-      let leader_holiday_pointer = 0
+      let leader_normal_pointer = 0;
+      let leader_holiday_pointer = 0;
       let last_normal_not_use = [];
       let thismonthduty_db = [];
       let thismonthduty_db_leader = [];
@@ -112,10 +74,10 @@ class CalendarDisplay {
         //last_zqgqcj_not_use = res2["last_zqgqcj_not_use"];
         normal_full_pointer = res2["normal_full_pointer"];
         last_normal_not_use = res2["last_normal_not_use"];
-        leader_normal_pointer = res2['leader_normal_pointer'],
-          leader_holiday_pointer = res2['leader_holiday_pointer'],
-          thismonthduty_db = res2["thismonthduty_db"],
-          thismonthduty_db_leader = res2["thismonthduty_db_leader"]
+        (leader_normal_pointer = res2["leader_normal_pointer"]),
+          (leader_holiday_pointer = res2["leader_holiday_pointer"]),
+          (thismonthduty_db = res2["thismonthduty_db"]),
+          (thismonthduty_db_leader = res2["thismonthduty_db_leader"]);
       }
 
       return [
@@ -128,14 +90,13 @@ class CalendarDisplay {
         leader_holiday_pointer,
         leader_normal_pointer,
         thismonthduty_db,
-        thismonthduty_db_leader
+        thismonthduty_db_leader,
       ]; //这个其实是上个月的值班详情，因为请求的是上个月的数据
     } catch (error) {
       console.log(error);
       throw error;
     }
   };
-
 
   //原始人员
   requestoriginpersons = async () => {
@@ -170,14 +131,10 @@ class CalendarDisplay {
     //return res.filter((item) => item['duty_type'] !== "N");
     if (!ish) {
       //如果不是節假日，需要排除主要
-      return res.filter((item) => item['normal_number'] > 0);
+      return res.filter((item) => item["normal_number"] > 0);
     }
     return res;
   };
-
-
-
-
 
   //请求curdate全部值班人员安排
   everymonthdutyerqueue = async (curdate) => {
@@ -201,10 +158,9 @@ class CalendarDisplay {
       const leader_dutyerqueue = JSON.parse(res[0]["leader_dutyerqueue"]);
       return [dutyerqueue, leader_dutyerqueue];
     } else {
-      return [[], []]
+      return [[], []];
     }
   };
-
 
   // //如果本月没找到人，则请求原始数据之后，post一份到数据库
   // postdutyerqueuetodb = async (year, month, thismonthdutyers) => {
@@ -236,17 +192,11 @@ class CalendarDisplay {
   //   }
   // };
 
-
-
   /*//修正_full_pointer。这里有个问题，如果上个月在_full_pointer之前增加人员，那么这个月请求到的
     all_dutyer_list在不修正_full_pointer位置的值肯定不正确，指针需要向前移动人员数量找到正确的起始位置
     ；而如果在指针之后加入人员则不受影响；其次如果减少人员，也不会影响，因为目前采取不删除人员，而是把人员
     的type改为N*/
-  correct_full_pointer = (
-    last_duty_list,
-    this_duty_list,
-    _pointer,
-  ) => {
+  correct_full_pointer = (last_duty_list, this_duty_list, _pointer) => {
     //如果上月没有数据，不做修正
     if (last_duty_list.length === 0) {
       return _pointer;
@@ -261,7 +211,6 @@ class CalendarDisplay {
     }
     return res;
   };
-
 
   //请求curdate存在数据库中值班数据
   requestthismonthduty = async (curdate) => {
@@ -408,7 +357,7 @@ class CalendarDisplay {
               leader_normal_pointer: leader_normal_pointer,
               leader_holiday_pointer: leader_holiday_pointer,
               thismonthduty_db: JSON.stringify(thismonthduty), //把数组转成字符串
-              thismonthduty_db_leader: JSON.stringify(thismonthduty_leader)
+              thismonthduty_db_leader: JSON.stringify(thismonthduty_leader),
             },
           },
           authorizationheaders
@@ -424,19 +373,19 @@ class CalendarDisplay {
       }
     } else {
       alert("没有管理员权限，排班结果提交数据库失败！");
-      this.endloading();//这里结束一下加载中模态框，不然无法登录
+      this.endloading(); //这里结束一下加载中模态框，不然无法登录
       return;
     }
   };
 
   chuli_phone = (arr) => {
-
     for (let i = 0; i < arr.length; i++) {
-      let phone_number = arr[i]['phone']
-      arr[i]['phone'] = phone_number.slice(0, 3) + '****' + phone_number.slice(7);//因为arrnotuse是直接关联的原生人员，这里还要再改一下电话号码中间*号
+      let phone_number = arr[i]["phone"];
+      arr[i]["phone"] =
+        phone_number.slice(0, 3) + "****" + phone_number.slice(7); //因为arrnotuse是直接关联的原生人员，这里还要再改一下电话号码中间*号
     }
-    return arr
-  }
+    return arr;
+  };
 
   //排完班后按月进行缓存
   make_cache = (
@@ -459,12 +408,10 @@ class CalendarDisplay {
       (this.duty_cache.hasOwnProperty(`${year}-${month}-1`) &&
         this.duty_cache[`${year}-${month}-1`]["created_at"] < Date.now())
     ) {
-
       //处理thismonthduty和not_use的电话号码
-      let t_this_holiday_not_use = this.chuli_phone(this_holiday_not_use)
-      let t_this_normal_not_use = this.chuli_phone(this_normal_not_use)
-      let t_thismonthduty = this.chuli_phone(thismonthduty)
-
+      let t_this_holiday_not_use = this.chuli_phone(this_holiday_not_use);
+      let t_this_normal_not_use = this.chuli_phone(this_normal_not_use);
+      let t_thismonthduty = this.chuli_phone(thismonthduty);
 
       this.duty_cache[`${year}-${month}-1`] = {
         created_at: Date.now(),
@@ -478,26 +425,19 @@ class CalendarDisplay {
         leader_normal_pointer: leader_normal_pointer,
         leader_holiday_pointer: leader_holiday_pointer,
         thismonthduty: t_thismonthduty,
-        thismonthduty_leader: thismonthduty_leader
+        thismonthduty_leader: thismonthduty_leader,
       };
     }
   };
 
-
-  cache_value_leader = (
-    p,
-    thisdutycache_leader,
-    leader_name,
-    leader_tel,
-  ) => {
+  cache_value_leader = (p, thisdutycache_leader, leader_name, leader_tel) => {
     if (p >= thisdutycache_leader.length) {
       return;
     }
     leader_name.innerHTML = thisdutycache_leader[p]["name"];
     leader_tel.innerHTML = thisdutycache_leader[p]["phone"];
     return p + 1;
-  }
-
+  };
 
   //缓存里面赋值操作
   cache_value = (
@@ -512,7 +452,6 @@ class CalendarDisplay {
     e_p_2_name,
     e_p_2_tel
   ) => {
-
     if (p_cache <= arr.length - 4) {
       d_p_1_name.innerHTML = arr[p_cache]["name"];
       d_p_1_tel.innerHTML = arr[p_cache]["phone"];
@@ -530,7 +469,6 @@ class CalendarDisplay {
       return;
     }
   };
-
 
   dutycntadd = (ish, isd, arr, idx) => {
     arr[idx]["total_duty_count"] += 1;
@@ -562,13 +500,11 @@ class CalendarDisplay {
     leader_name.innerHTML = leaderdutyers[_pointer]["name"];
     leader_tel.innerHTML = leaderdutyers[_pointer]["phone"];
     thismonthduty_leader.push(leaderdutyers[_pointer]);
-    this.dutycntadd(ish, 'LEADER', leaderdutyers, _pointer);
+    this.dutycntadd(ish, "LEADER", leaderdutyers, _pointer);
     _pointer = (_pointer + 1) % leader_all_len;
 
-    return _pointer
-
-  }
-
+    return _pointer;
+  };
 
   //排班大概白班1、晚班1代码相同；2相同，提出两个函数
   duty_first = (
@@ -610,8 +546,9 @@ class CalendarDisplay {
         flag = true; //找到了
         p1_gender = arr_not_use[i]["gender"]; //记录第一个性别
         _p_1_name.innerHTML = arr_not_use[i]["name"];
-        let phone_number = arr_not_use[i]["phone"]
-        _p_1_tel.innerHTML = phone_number.slice(0, 3) + '****' + phone_number.slice(7);//因为arrnotuse是直接关联的原生人员，这里还要再改一下电话号码中间*号
+        let phone_number = arr_not_use[i]["phone"];
+        _p_1_tel.innerHTML =
+          phone_number.slice(0, 3) + "****" + phone_number.slice(7); //因为arrnotuse是直接关联的原生人员，这里还要再改一下电话号码中间*号
 
         this.dutycntadd(ish, isd, arr_not_use, i);
 
@@ -699,8 +636,9 @@ class CalendarDisplay {
       if (j < arr_not_use.length) {
         flag = true;
         _p_2_name.innerHTML = arr_not_use[j]["name"];
-        let phone_number = arr_not_use[j]["phone"]
-        _p_2_tel.innerHTML = phone_number.slice(0, 3) + '****' + phone_number.slice(7);//因为arrnotuse是直接关联的原生人员，这里还要再改一下电话号码中间*号
+        let phone_number = arr_not_use[j]["phone"];
+        _p_2_tel.innerHTML =
+          phone_number.slice(0, 3) + "****" + phone_number.slice(7); //因为arrnotuse是直接关联的原生人员，这里还要再改一下电话号码中间*号
         this.dutycntadd(ish, isd, arr_not_use, j);
         thismonthduty.push(arr_not_use[j]); //这里放入当前月的
         arr_not_use.splice(j, 1); //已使用，删除此人
@@ -757,11 +695,9 @@ class CalendarDisplay {
     const year = parseInt(curmonthdata[0]);
     const month = parseInt(curmonthdata[1]);
 
-
     //优先级是先查缓存，然后数据库(数据库只存当月的)，最后现排
     let havethiscache = this.duty_cache.hasOwnProperty(`${year}-${month}-1`); //标记缓存是否有月数据
     if (havethiscache) {
-
       let thisdutycache =
         this.duty_cache[`${year}-${month}-1`]["thismonthduty"].slice(); // 做个深拷贝，不然会变的
 
@@ -794,15 +730,14 @@ class CalendarDisplay {
           else_nodevalue.isBefore(dayjs(config.endTime))
         ) {
           if (!item.classList.contains("notthisMonth")) {
-
             //this.makeleaderduty(leader_name, leader_tel);
 
             p_cache_leader = this.cache_value_leader(
               p_cache_leader,
               thisdutycache_leader,
               leader_name,
-              leader_tel,
-            )
+              leader_tel
+            );
 
             p_cache = this.cache_value(
               p_cache,
@@ -848,8 +783,7 @@ class CalendarDisplay {
           );
         }
       });
-    }
-    else if (!havethiscache) {
+    } else if (!havethiscache) {
       //如果没有缓存，先从数据库找。
       const curmonthdutyinfo = await this.requestthismonthduty(
         `${year}-${month}-1`
@@ -862,7 +796,9 @@ class CalendarDisplay {
         // &&curmonthdutyinfo[0]["thismonthduty_db"].length > 0
       ) {
         curmonthduty = JSON.parse(curmonthdutyinfo[0]["thismonthduty_db"]);
-        curmonthduty_leader = JSON.parse(curmonthdutyinfo[0]["thismonthduty_db_leader"]);
+        curmonthduty_leader = JSON.parse(
+          curmonthdutyinfo[0]["thismonthduty_db_leader"]
+        );
       }
 
       //如果数据库有数据，就用数据库的数据（这里其实有问题，万一一个有一个没有呢？）
@@ -910,17 +846,14 @@ class CalendarDisplay {
             else_nodevalue.isBefore(dayjs(config.endTime))
           ) {
             if (!item.classList.contains("notthisMonth")) {
-
-
               //this.makeleaderduty(leader_name, leader_tel);
 
               p_cache_leader = this.cache_value_leader(
                 p_cache_leader,
                 curmonthduty_leader,
                 leader_name,
-                leader_tel,
-              )
-
+                leader_tel
+              );
 
               p_cache = this.cache_value(
                 p_cache,
@@ -1010,28 +943,35 @@ class CalendarDisplay {
       //   have_this_month_duty = true; //五月也给一个post才对
       // }
       // else {
-      [all_duty_list, leaderdutyers] = await this.everymonthdutyerqueue(`${year}-${month}-1`);
+      [all_duty_list, leaderdutyers] = await this.everymonthdutyerqueue(
+        `${year}-${month}-1`
+      );
 
       if (all_duty_list.length > 0 && leaderdutyers.length > 0) {
         //请求到了月安排表，说明排班安排已经定了，排出的值班表可以存数据库
         have_this_month_duty = true; //这里主要给存数据库用
-        have_this_month_leader_duty = true
+        have_this_month_leader_duty = true;
       } else if (all_duty_list.length <= 0 && leaderdutyers.length > 0) {
         have_this_month_duty = false;
-        have_this_month_leader_duty = true
+        have_this_month_leader_duty = true;
         alert(`${year}年${month}月排班未出，采用目前人员预排，后续会有变动。`);
         //这里如果指定月数据没出，就找一次上一月的，再找不到就用原始的
-        [all_duty_list, leaderdutyers] = await this.everymonthdutyerqueue(`${l_year}-${last_month}-1`);
+        [all_duty_list, leaderdutyers] = await this.everymonthdutyerqueue(
+          `${l_year}-${last_month}-1`
+        );
         if (all_duty_list.length === 0) {
           all_duty_list = await this.requestoriginpersons();
         }
-      }
-      else if (all_duty_list.length > 0 && leaderdutyers.length <= 0) {
+      } else if (all_duty_list.length > 0 && leaderdutyers.length <= 0) {
         have_this_month_duty = true;
-        have_this_month_leader_duty = false
-        alert(`${year}年${month}月领导排班未出，采用目前人员预排，后续会有变动。`);
+        have_this_month_leader_duty = false;
+        alert(
+          `${year}年${month}月领导排班未出，采用目前人员预排，后续会有变动。`
+        );
         //这里如果指定月数据没出，就找一次上一月的，再找不到就用原始的
-        [all_duty_list, leaderdutyers] = await this.everymonthdutyerqueue(`${l_year}-${last_month}-1`);
+        [all_duty_list, leaderdutyers] = await this.everymonthdutyerqueue(
+          `${l_year}-${last_month}-1`
+        );
         if (leaderdutyers.length === 0) {
           leaderdutyers = await this.requestleaderdutyers();
         }
@@ -1044,7 +984,9 @@ class CalendarDisplay {
 
       duty_all_len = all_duty_list.length;
       leader_all_len = leaderdutyers.length;
-      leaderdutyers_normal = leaderdutyers.filter((item) => item['normal_number'] > 0); // 普通領導
+      leaderdutyers_normal = leaderdutyers.filter(
+        (item) => item["normal_number"] > 0
+      ); // 普通領導
       leader_all_len_normal = leaderdutyers_normal.length;
 
       //排这个月的班，需要上个月的一些指针和人员数据，还是先从缓存找
@@ -1068,16 +1010,15 @@ class CalendarDisplay {
         last_normal_not_use =
           this.duty_cache[`${l_year}-${last_month}-1`]["normal_not_use"];
         //thismonthduty_db = this.duty_cache[`${l_year}-${last_month}-1`]['thismonthduty'];
-        leader_normal_pointer = this.duty_cache[`${l_year}-${last_month}-1`][
-          "leader_normal_pointer"
-        ];
-        leader_holiday_pointer = this.duty_cache[`${l_year}-${last_month}-1`][
+        leader_normal_pointer =
+          this.duty_cache[`${l_year}-${last_month}-1`]["leader_normal_pointer"];
+        leader_holiday_pointer =
+          this.duty_cache[`${l_year}-${last_month}-1`][
           "leader_holiday_pointer"
-        ];
+          ];
       }
-      else
       //缓存没有，就请求数据库
-      {
+      else {
         [
           holiday_full_pointer,
           last_holiday_not_use,
@@ -1088,15 +1029,16 @@ class CalendarDisplay {
           leader_holiday_pointer,
           leader_normal_pointer,
           thismonthduty_db,
-          thismonthduty_db_leader
+          thismonthduty_db_leader,
         ] = await this.requestDataFunc(l_year, last_month);
 
-        let [last_duty_list, last_leaderdutyers] = await this.everymonthdutyerqueue(`${l_year}-${last_month}-1`); // 请求上月的值班人员
+        let [last_duty_list, last_leaderdutyers] =
+          await this.everymonthdutyerqueue(`${l_year}-${last_month}-1`); // 请求上月的值班人员
         if (last_duty_list.length > 0) {
           holiday_full_pointer = this.correct_full_pointer(
             last_duty_list,
             all_duty_list,
-            holiday_full_pointer,
+            holiday_full_pointer
           );
 
           normal_full_pointer = this.correct_full_pointer(
@@ -1107,11 +1049,13 @@ class CalendarDisplay {
         }
         if (last_leaderdutyers.length > 0) {
           //這裡處理一下領導的序列
-          let last_leaderdutyers_normal = last_leaderdutyers.filter((item) => item['normal_number'] > 0); // 普通領導
+          let last_leaderdutyers_normal = last_leaderdutyers.filter(
+            (item) => item["normal_number"] > 0
+          ); // 普通領導
           leader_holiday_pointer = this.correct_full_pointer(
             last_leaderdutyers,
             leaderdutyers,
-            leader_holiday_pointer,
+            leader_holiday_pointer
           );
 
           leader_normal_pointer = this.correct_full_pointer(
@@ -1189,7 +1133,6 @@ class CalendarDisplay {
                 leader_tel,
                 true
               );
-
 
               [holiday_full_pointer, p1_gender] = this.duty_first(
                 all_duty_list,
@@ -1325,7 +1268,6 @@ class CalendarDisplay {
                 leader_tel,
                 false
               );
-
 
               if (
                 item.classList.contains("weekend") &&
@@ -1491,7 +1433,6 @@ class CalendarDisplay {
           thismonthduty_leader
         );
 
-
         //其实上面post已经需要权限了,没权限也到不到这里来
         const token = localStorage.getItem("token");
         if (token) {
@@ -1521,7 +1462,8 @@ class CalendarDisplay {
 
           // 修改领导值班次数
           try {
-            urlrequest.put(`${config.requesturl}/api/dutycalendar/leaderdutyers`,
+            urlrequest.put(
+              `${config.requesturl}/api/dutycalendar/leaderdutyers`,
               {
                 data: thismonthduty_leader,
               },
@@ -1531,10 +1473,9 @@ class CalendarDisplay {
             console.log("error:", error);
             throw error;
           }
-
         } else {
           alert("没有管理员权限，排班次数提交数据库失败！");
-          this.endloading();//这里结束一下加载中模态框，不然无法登录
+          this.endloading(); //这里结束一下加载中模态框，不然无法登录
           return;
         }
       }
@@ -1561,7 +1502,6 @@ class CalendarDisplay {
     this.endloading(); //在post和缓存后终止动画
   }; //make duty
 
-
   /*判断year-month日期是否小月等于当前curyear-curmonth日期，是则返回True,否则返回false*/
   // is_l_or_e = (year, month) => {
   //   if (year < curyear) {
@@ -1586,8 +1526,7 @@ class CalendarDisplay {
    * @param {any[]} arr
    */
   set _mainInfo(arr) {
-
-    this.monthinfo = arr[6].date //第6个是第一排最后一个，肯定有数据，这个用来切上月，下月
+    this.monthinfo = arr[6].date; //第6个是第一排最后一个，肯定有数据，这个用来切上月，下月
 
     let status = false; // 设置 select 修改状态
     //this.showArr = arr; // 右边显示
@@ -1649,7 +1588,6 @@ class CalendarDisplay {
       item.querySelector(".calendar-col-day-info .other-info").innerHTML = info;
     });
 
-
     // 这里排班
     this.makeDuty(list);
   }
@@ -1681,19 +1619,17 @@ class CalendarDisplay {
   //初始化渲染
   render = (opt) => {
     this.options = {
-      ...this.option,
       ...opt,
     };
     this.el = document.querySelector(this.options.element);
-
     // 建立dom
     this.render_dom();
+    // 绑定动作
+    this.bind();
     // 渲染数据
     //console.log("render调用_mainInfo");
     //this._mainInfo = this.dateClass.infos(...this.today.split("-"));
     this._mainInfo = this.dateClass.infos(curyear, curmonth, curday);
-    // 绑定动作
-    this.bind();
   };
 
   render_dom = () => {
@@ -1919,7 +1855,7 @@ class CalendarDisplay {
         ybtn.value,
         mbtn.value,
         // this.dayInfo.date.split("-")[2]
-        1, // 这里直接给个1号
+        1 // 这里直接给个1号
       );
     });
     // 选择月份
@@ -1933,7 +1869,6 @@ class CalendarDisplay {
     });
     // 上一月
     this.el.querySelector(".last-month").addEventListener("click", () => {
-
       let [y, m, d] = this.monthinfo.split("-");
       y = parseInt(y);
       m = parseInt(m);
@@ -1956,7 +1891,6 @@ class CalendarDisplay {
 
     // 下一月
     this.el.querySelector(".next-month").addEventListener("click", () => {
-
       let [y, m, d] = this.monthinfo.split("-");
       y = parseInt(y);
       m = parseInt(m);
@@ -2152,7 +2086,6 @@ class DateClass {
         return false;
     };*/
 
-
   /**
    * 是否补班
    * @param {number} y 年
@@ -2173,5 +2106,72 @@ class DateClass {
   };
 }
 
-let calendardisplay = new CalendarDisplay();
-export { calendardisplay };
+
+
+const render_limit_func = async () => {
+
+  let calendardisplay = new CalendarDisplay();
+
+  calendardisplay.render({
+    element: ".container",
+  });
+
+  // 渲染主面之后，绑定事件
+  await dutyerlist_func(); // 值班人员列表
+  await analysis_func(); // 值班统计
+  await logout_func(); //登录退出
+  await login_func();
+  await export_func(); // 导出表格
+}
+
+
+const into_func = async () => {
+  //字符串类型的密钥转换为 WordArray 类型；密钥长度需要符合 AES 加密算法的要求，可以是 128、192 或 256 位，如果不足需要进行填充；
+  const key = CryptoJS.enc.Utf8.parse("012345678123456789101213"); // 呵呵
+  const intoform = document.getElementById("into-form");
+  if (intoform) {
+    intoform.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const intostr = document.getElementById("into").value;
+      //检查表单是否填写完整
+      if (intostr.trim() === "") {
+        alert("请填写访问密码！");
+        return;
+      }
+
+      const encryptedintostr = CryptoJS.AES.encrypt(intostr, key, {
+        mode: CryptoJS.mode.ECB,
+        padding: CryptoJS.pad.Pkcs7,
+      }).toString();
+
+      let response = "";
+      try {
+        response = await urlrequest.post(
+          `${config.requesturl}/api/dutycalendar/into`,
+          {
+            data: { intostr: encryptedintostr },
+          }
+        );
+
+        if (response.code === 200) {
+
+          await render_limit_func();
+
+          document.getElementById("main-content").style.display = "block"; //通过css样式控制，全靠自觉
+          document.getElementById("login-form").style.display = "none";
+        } else {
+          alert("密码错误，请重新输入！");
+          return;
+        }
+      } catch (error) {
+        console.error("请求失败：", error);
+        throw error;
+      }
+    });
+  }
+};
+
+
+
+await into_func();
+

@@ -1,6 +1,5 @@
 import { request_data } from "./dutychart.js";
 
-
 //这段代码会让 #chart-by-cat 元素相对于父元素 #chart-by-cat-modal-body 居中显示,并且 ECharts 会填满整个 #chart-by-cat 容器,形成居中的效果。
 const parent = document.getElementById("chart-by-time-modal-body");
 parent.style.display = "flex";
@@ -18,7 +17,7 @@ const render = (showdata, opt) => {
   });
   const option2 = {
     title: {
-      text: "按时间分{highlight|（右侧滑块拉伸、移动区间）}",
+      text: "{highlight|右侧滑块拉伸、移动区间}",
       textStyle: {
         fontSize: 14,
         fontWeight: "bold",
@@ -141,19 +140,13 @@ const endloading = () => {
 };
 
 
-const checkLoggedIn = async () => {
+export const checkLoggedIn_bytime = async () => {
   displayloading();
-  if (localStorage.getItem("token")) {
-    const showdata = await request_data();
-    render(showdata, {
-      element: "#chart-by-time",
-    });
-    
-  }
-  else {
-    alert("未登录无法查看！")
-  }
+  const showdata = await request_data();
+  render(showdata, {
+    element: "#chart-by-time",
+  });
   endloading();
 }
 
-document.addEventListener("DOMContentLoaded", checkLoggedIn); //文档加载时候就加入监听
+//document.addEventListener("DOMContentLoaded", checkLoggedIn); //文档加载时候就加入监听

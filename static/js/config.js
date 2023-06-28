@@ -105,5 +105,13 @@ export let config = {
   
     startTime: "2023-5-3", //排班时间区间
     endTime: "2024-2-16",
-    requesturl: "https://wanghaiyang900627.pythonanywhere.com/"
+    requesturl: "http://192.168.3.12:8000",
+    //requesturl: "http://127.0.0.1:8000",
+    //requesturl: "https://wanghaiyang900627.pythonanywhere.com/"
   };
+
+
+const init_today = new Date(); // 默认获取当前时间为日期对象
+export const curyear = init_today.getFullYear(); // 获取年份
+export const curmonth = init_today.getMonth() + 1; // 获取月份，需要加1，因为月份是以0开始计数的
+export const curday = init_today.getDate();

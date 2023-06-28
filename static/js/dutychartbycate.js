@@ -143,20 +143,14 @@ const endloading = () => {
 };
 
 
-const checkLoggedIn = async () => {
+export const checkLoggedIn_bycate = async () => {
   displayloading();
-  if (localStorage.getItem("token")) {
-    const showdata = await request_data();
-    //console.log('showdata',showdata);
-    render(showdata, {
-      element: "#chart-by-cat",
-    });
-
-  }
-  else {
-    alert("未登录无法查看！")
-  }
+  const showdata = await request_data();
+  //console.log('showdata',showdata);
+  render(showdata, {
+    element: "#chart-by-cat",
+  });
   endloading();
 }
 
-document.addEventListener("DOMContentLoaded", checkLoggedIn); //文档加载时候就加入监听
+// document.addEventListener("DOMContentLoaded", checkLoggedIn); //文档加载时候就加入监听

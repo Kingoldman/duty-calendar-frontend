@@ -49,7 +49,7 @@
 
   <!-- 登录模态框 -->
   <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="loginModalLabel" style="font-size: larger;">需要登录获取请求权限</h5>
@@ -63,7 +63,7 @@
             <div class="mb-3">
               <input type="password" class="form-control" id="password" name="password" placeholder="密码" required />
             </div>
-            <button type="button" type="submit" class="btn btn-outline-primary w-100" id="submitBtn">
+            <button type="button" type="button" class="btn btn-outline-primary w-100" id="submitBtn">
               登录
             </button>
           </form>
@@ -83,7 +83,7 @@
 
   <!-- 值班人员模态框 -->
   <div class="modal fade" id="dutyerlistModal" tabindex="-1" aria-labelledby="dutyerlistModalLabel" aria-hidden="true">
-    <div class="modal-dialog  modal-dialog-scrollable modal-dialog-centered modal-lg">
+    <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="dutyerlistModalLabel" style="font-size: larger;">值班人员清单</h5>
@@ -129,7 +129,7 @@
 
   <!-- 值班统计按类型排 -->
   <div class="modal fade" id="dutychartModal2" aria-hidden="true" aria-labelledby="dutychartModalLabel2" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content">
         <div class="modal-header">
           <h1 class="modal-title fs-5" id="dutychartModalLabel2">按类型统计</h1>
@@ -148,7 +148,7 @@
 
   <!-- 值班统计按时间排 -->
   <div class="modal fade" id="dutychartModal3" aria-hidden="true" aria-labelledby="dutychartModalLabel3" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content">
         <div class="modal-header">
           <h1 class="modal-title fs-5" id="dutychartModalLabel3">按时间统计</h1>
@@ -177,24 +177,13 @@
   <script src="./static/js/dayjs1.11.7.min.js"></script>
   <script src="./static/js/crypto-js.min.js"></script>
   <script src="./static/js/xlsx.full.min.js"></script>
-
-  <!-- 渲染主界面 -->
-  <script type="module">
-    import { calendardisplay } from "./static/js/main.js";
-    calendardisplay.render({
-      element: ".container",
-    });
-  </script>
-
-  <!-- 渲染出页面才能添加监听 -->
-  <script type="module" src="./static/js/addbtnevent.js"></script>
-  <script type="module" src="./static/js/dutyerlistdisplay.js"></script>
   <script src="./static/js/echarts5.4.2.min.js"></script>
   <script type="module" src="./static/js/dutychart.js"></script>
   <script type="module" src="./static/js/dutychartbycate.js"></script>
   <script type="module" src="./static/js/dutychartbytime.js"></script>
-
+  <script type="module" src="./static/js/dutyerlistdisplay.js"></script>
+  <script type="module" src="./static/js/addbtnevent.js"></script>
+  <script type="module" src="./static/js/main.js"></script>
 
 </body>
-
 </html>
