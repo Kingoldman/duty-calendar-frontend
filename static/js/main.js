@@ -1792,12 +1792,12 @@ class CalendarDisplay {
       <div class="calendar-left">
         <div class="calendar-toolbar-top border-bottom">
         <div class = "select-year">
-        <select class="form-select form-select-primary calendar-toolbar-item" aria-label="select-year" disabled>
+        <select class="form-select form-select-primary calendar-toolbar-item" aria-label="select-year">
               ${yhtml}
             </select>
         </div>
         <div class = "select-month">
-            <select class="form-select form-select-primary calendar-toolbar-item " aria-label="select-month" disabled>
+            <select class="form-select form-select-primary calendar-toolbar-item " aria-label="select-month">
                 ${mhtml}
               </select>
             </div>
